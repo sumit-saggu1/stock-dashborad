@@ -8,7 +8,7 @@ st.title("📈 Stock Analysis Dashboard")
 
 # Sidebar for user input
 ticker = st.sidebar.text_input("Enter Stock Ticker", value="MSFT", max_chars=5)
-period = st.sidebar.selectbox("Select Period", ["1d", "5d", "7d", "15d", "45d", "59d", "1y", "2y", "5y"],index=5)
+period = st.sidebar.selectbox("Select Period", ["1d", "5d", "7d", "15d", "45d", "59d", "1y", "2y", "5y"],index=3)
 # Only show minute intervals for short periods
 if period in ["1d", "5d", "7d"]:
     interval = st.sidebar.selectbox("Select Interval", ["30m","1h", "1d" ],index=1   )
