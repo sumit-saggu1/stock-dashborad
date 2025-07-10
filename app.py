@@ -40,8 +40,14 @@ if ticker and data is not None and not data.empty:
     # Plot closing price
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Close'))
-    fig.update_layout(title=f"{ticker} Closing Price", xaxis_title="Date", yaxis_title=f"Price ({currency[1]})")
-    st.plotly_chart(fig, use_container_width=True)
+    fig.update_layout(
+        title=f"{ticker} Closing Price",
+        xaxis_title="Date",
+        yaxis_title=f"Price ({currency[1]})",
+        xaxis=dict(fixedrange=True),  # Lock x-axis: disables zoom, pan, and selection
+        yaxis=dict(fixedrange=True)   # Lock y-axis: disables zoom, pan, and selection
+    )
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
     # Moving Average
     window = st.sidebar.slider("Moving Average Window", 2, 30, 5)
@@ -49,8 +55,14 @@ if ticker and data is not None and not data.empty:
     fig_ma = go.Figure()
     fig_ma.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Close'))
     fig_ma.add_trace(go.Scatter(x=data.index, y=data['MA'], mode='lines', name=f'MA{window}'))
-    fig_ma.update_layout(title=f"{ticker} Closing Price & {window}-Day Moving Average", xaxis_title="Date", yaxis_title=f"Price ({currency[1]})")
-    st.plotly_chart(fig_ma, use_container_width=True)
+    fig_ma.update_layout(
+        title=f"{ticker} Closing Price & {window}-Day Moving Average",
+        xaxis_title="Date",
+        yaxis_title=f"Price ({currency[1]})",
+        xaxis=dict(fixedrange=True),  # Lock x-axis: disables zoom, pan, and selection
+        yaxis=dict(fixedrange=True)   # Lock y-axis: disables zoom, pan, and selection
+    )
+    st.plotly_chart(fig_ma, use_container_width=True, config={"displayModeBar": False})
 
     # --- Candlestick Chart with Volume and Enhanced Layout ---
     st.subheader(f"📊 {ticker.upper()} Candlestick Chart with Volume")
@@ -112,12 +124,14 @@ if ticker and data is not None and not data.empty:
         yaxis=dict(
             title=dict(text=f"Price ({currency[1]})", font=dict(color='black')),
             showline=True, linewidth=1, linecolor='gray',
-            tickfont=dict(color='black')
+            tickfont=dict(color='black'),
+            fixedrange=True  # Lock the y-axis: disables zoom, pan, and selection
         ),
         yaxis2=dict(
             title=dict(text="Volume", font=dict(color='black')),
             showline=True, linewidth=1, linecolor='gray',
-            tickfont=dict(color='black')
+            tickfont=dict(color='black'),
+            fixedrange=True  # Lock the y-axis2 as well
         ),
         hovermode="x unified",
         plot_bgcolor="#f9f9f9",
@@ -129,10 +143,10 @@ if ticker and data is not None and not data.empty:
             text=f"{ticker.upper()} Candlestick Chart with Volume",
             x=0.5,
             font=dict(size=22, color="#333", family="Segoe UI, Arial")
-        ),
+        )
     )
 
-    st.plotly_chart(fig_candle, use_container_width=True)
+    st.plotly_chart(fig_candle, use_container_width=True, config={"displayModeBar": False})
 
     # Basic stats
     st.subheader("Summary Statistics")
@@ -166,8 +180,10 @@ if ticker and data is not None and not data.empty:
                     xaxis_title="Time",
                     yaxis_title=f"Price ({currency[1]})",
                     xaxis_rangeslider_visible=False,
-                    height=500
+                    height=500,
+                    xaxis=dict(fixedrange=True),  # Lock x-axis: disables zoom, pan, and selection
+                    yaxis=dict(fixedrange=True)   # Lock y-axis: disables zoom, pan, and selection
                 )
-                st.plotly_chart(fig_intraday, use_container_width=True)
+                st.plotly_chart(fig_intraday, use_container_width=True, config={"displayModeBar": False})
             else:
                 st.info("No intraday data available for the selected date.")
