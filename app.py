@@ -130,7 +130,6 @@ if ticker and data is not None and not data.empty:
             x=0.5,
             font=dict(size=22, color="#333", family="Segoe UI, Arial")
         ),
-        dragmode="zoom"  # <-- Add this line to enable zooming with touchpad/mouse
     )
 
     st.plotly_chart(fig_candle, use_container_width=True)
